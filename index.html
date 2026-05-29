@@ -1,228 +1,440 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Online Chocolate Store</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Online Store</title>
+
+  <!-- EmailJS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
 
-    body{
-      background:#f4f4f4;
-      color:#333;
+    body {
+      background: #f5f5f5;
+      color: #333;
     }
 
-    header{
-      background:#222;
-      color:white;
-      padding:20px;
-      text-align:center;
+    header {
+      background: #111827;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
-    nav{
-      background:#444;
-      padding:10px;
-      text-align:center;
+    header h1 {
+      margin-bottom: 10px;
     }
 
-    nav a{
-      color:white;
-      text-decoration:none;
-      margin:0 15px;
-      font-weight:bold;
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
-    .hero{
-      background:#0d6efd;
-      color:white;
-      padding:60px 20px;
-      text-align:center;
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
     }
 
-    .container{
-      width:90%;
-      max-width:1100px;
-      margin:auto;
-      padding:40px 0;
+    .hero {
+      background: linear-gradient(to right, #2563eb, #1e40af);
+      color: white;
+      text-align: center;
+      padding: 70px 20px;
     }
 
-    .products{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:20px;
+    .hero h2 {
+      font-size: 42px;
+      margin-bottom: 15px;
     }
 
-    .product{
-      background:white;
-      padding:20px;
-      border-radius:10px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.1);
-      text-align:center;
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 0;
     }
 
-    .product img{
-      width:100%;
-      height:220px;
-      object-fit:cover;
-      border-radius:10px;
+    .section-title {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 32px;
     }
 
-    .product h3{
-      margin:15px 0 10px;
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
     }
 
-    .price{
-      color:#0d6efd;
-      font-size:22px;
-      font-weight:bold;
-      margin-bottom:10px;
+    .product {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: 0.3s;
     }
 
-    .btn{
-      display:inline-block;
-      padding:10px 20px;
-      background:#0d6efd;
-      color:white;
-      text-decoration:none;
-      border-radius:5px;
-      margin-top:10px;
+    .product:hover {
+      transform: translateY(-5px);
     }
 
-    .order-section{
-      background:white;
-      padding:30px;
-      border-radius:10px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    .product img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
     }
 
-    form{
-      display:flex;
-      flex-direction:column;
-      gap:15px;
+    .product-content {
+      padding: 20px;
     }
 
-    input, textarea, select{
-      padding:12px;
-      border:1px solid #ccc;
-      border-radius:5px;
-      font-size:16px;
+    .product h3 {
+      margin-bottom: 10px;
     }
 
-    button{
-      padding:12px;
-      border:none;
-      background:#0d6efd;
-      color:white;
-      font-size:16px;
-      border-radius:5px;
-      cursor:pointer;
+    .price {
+      color: #2563eb;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px 0;
     }
 
-    button:hover{
-      background:#084298;
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
-    footer{
-      background:#222;
-      color:white;
-      text-align:center;
-      padding:20px;
-      margin-top:40px;
+    .btn:hover {
+      background: #1e40af;
     }
 
-    @media(max-width:768px){
-      .hero{
-        padding:40px 20px;
+    .cart {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-top: 40px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .total {
+      text-align: right;
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .checkout {
+      margin-top: 50px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, textarea {
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    footer {
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+    }
+
+    @media(max-width: 700px) {
+      .hero h2 {
+        font-size: 30px;
+      }
+
+      .cart-item {
+        flex-direction: column;
+        gap: 5px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
-    <h1>Chocolate Store</h1>
-    <p>Best Products at Affordable Prices</p>
+    <h1>Smart Online Store</h1>
+
+    <nav>
+      <a href="#products">Products</a>
+      <a href="#cart">Cart</a>
+      <a href="#checkout">Checkout</a>
+    </nav>
   </header>
 
-  <!-- NAVBAR -->
-  <nav>
-    <a href="#products">Products</a>
-    <a href="#order">Order Now</a>
-  </nav>
-
-  <!-- HERO SECTION -->
   <section class="hero">
-    <h2>Welcome to Our Store</h2>
-    <p>Shop quality products easily online.</p>
+    <h2>Modern Online Shopping</h2>
+    <p>Buy quality products easily from our online store.</p>
   </section>
 
   <!-- PRODUCTS -->
   <section class="container" id="products">
-    <h2 style="text-align:center; margin-bottom:30px;">Our Products</h2>
+    <h2 class="section-title">Featured Products</h2>
 
     <div class="products">
 
-      <!-- PRODUCT 1 -->
+      <!-- Product 1 -->
       <div class="product">
-        <img src="https://www.marsfoodservices.com/s3media/styles/webp/public/2024-06/DOVE%C2%AE%20Silky%20Smooth%20Milk%20Chocolate%20Bar%20267369_SKU_B.jpg.webp?VersionId=Ar9sU3.H92YaLGnqRDp4EnHg5Wcy678o&itok=iiTMIU30" alt="Shoes">
-        <h3>Running Shoes</h3>
-        <p>Comfortable sports running shoes for daily use.</p>
-        <div class="price">$59</div>
-        <a href="#order" class="btn">Order Now</a>
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop" alt="Shoes">
+
+        <div class="product-content">
+          <h3>Running Shoes</h3>
+          <p>Comfortable and stylish sports shoes.</p>
+          <div class="price">$59</div>
+
+          <button class="btn" onclick="addToCart('Running Shoes', 59)">
+            Add to Cart
+          </button>
+        </div>
       </div>
 
-      <!-- PRODUCT 2 -->
+      <!-- Product 2 -->
       <div class="product">
         <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000&auto=format&fit=crop" alt="Headphones">
-        <h3>Wireless Headphones</h3>
-        <p>High-quality sound with long battery life.</p>
-        <div class="price">$89</div>
-        <a href="#order" class="btn">Order Now</a>
+
+        <div class="product-content">
+          <h3>Wireless Headphones</h3>
+          <p>Premium sound with long battery life.</p>
+          <div class="price">$89</div>
+
+          <button class="btn" onclick="addToCart('Wireless Headphones', 89)">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop" alt="Watch">
+
+        <div class="product-content">
+          <h3>Smart Watch</h3>
+          <p>Track fitness and receive notifications.</p>
+          <div class="price">$120</div>
+
+          <button class="btn" onclick="addToCart('Smart Watch', 120)">
+            Add to Cart
+          </button>
+        </div>
       </div>
 
     </div>
-  </section>
 
-  <!-- ORDER FORM -->
-  <section class="container" id="order">
-    <div class="order-section">
-      <h2 style="text-align:center; margin-bottom:20px;">Place Your Order</h2>
+    <!-- CART -->
+    <div class="cart" id="cart">
+      <h2>Shopping Cart</h2>
 
-      <!-- FORM -->
-      <!-- Replace YOUR_FORMSPREE_LINK below -->
-      <form action="YOUR_FORMSPREE_LINK" method="POST">
+      <div id="cart-items"></div>
 
-        <input type="text" name="customer_name" placeholder="Your Name" required>
+      <div class="total">
+        Total: $<span id="total">0</span>
+      </div>
+    </div>
 
-        <input type="email" name="email" placeholder="Your Email" required>
+    <!-- CHECKOUT -->
+    <div class="checkout" id="checkout">
+      <h2 class="section-title">Checkout</h2>
 
-        <select name="product_name" required>
-          <option value="">Select Product</option>
-          <option value="Running Shoes">Running Shoes - $59</option>
-          <option value="Wireless Headphones">Wireless Headphones - $89</option>
-        </select>
+      <form id="checkout-form">
 
-        <input type="number" name="quantity" placeholder="Quantity" min="1" required>
+        <input type="text" id="name" placeholder="Full Name" required>
 
-        <textarea name="message" rows="5" placeholder="Additional Message"></textarea>
+        <input type="email" id="email" placeholder="Email Address" required>
 
-        <button type="submit">Submit Order</button>
+        <input type="text" id="address" placeholder="Shipping Address" required>
+
+        <textarea id="message" rows="4" placeholder="Additional Notes"></textarea>
+
+        <button type="submit" class="btn">Place Order</button>
 
       </form>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <p>© 2026 My Simple Online Store | All Rights Reserved</p>
+    <p>© 2026 Smart Online Store | All Rights Reserved</p>
   </footer>
+
+
+  <script>
+
+    // ============================
+    // EMAILJS CONFIGURATION
+    // ============================
+
+    // Replace with your EmailJS Public Key
+    emailjs.init("YOUR_PUBLIC_KEY");
+
+
+    // ============================
+    // SHOPPING CART
+    // ============================
+
+    let cart = [];
+
+    function addToCart(name, price) {
+
+      const existing = cart.find(item => item.name === name);
+
+      if(existing) {
+        existing.quantity++;
+      } else {
+        cart.push({
+          name,
+          price,
+          quantity: 1
+        });
+      }
+
+      updateCart();
+    }
+
+
+    function updateCart() {
+
+      const cartItems = document.getElementById('cart-items');
+      const totalElement = document.getElementById('total');
+
+      cartItems.innerHTML = '';
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+
+        total += item.price * item.quantity;
+
+        cartItems.innerHTML += `
+          <div class="cart-item">
+            <div>
+              <strong>${item.name}</strong><br>
+              Quantity: ${item.quantity}
+            </div>
+
+            <div>
+              $${item.price * item.quantity}
+              <button onclick="removeItem(${index})" style="margin-left:10px;padding:5px 10px;cursor:pointer;">
+                Remove
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      totalElement.innerText = total;
+    }
+
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+
+    // ============================
+    // CHECKOUT FORM
+    // ============================
+
+    document.getElementById('checkout-form').addEventListener('submit', function(e) {
+
+      e.preventDefault();
+
+      if(cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+
+      const customerName = document.getElementById('name').value;
+      const customerEmail = document.getElementById('email').value;
+      const address = document.getElementById('address').value;
+      const message = document.getElementById('message').value;
+
+
+      let orderDetails = '';
+      let totalPrice = 0;
+
+      cart.forEach(item => {
+        orderDetails += `${item.name} x ${item.quantity} = $${item.price * item.quantity}\n`;
+        totalPrice += item.price * item.quantity;
+      });
+
+
+      // EMAIL PARAMETERS
+      const templateParams = {
+        customer_name: customerName,
+        customer_email: customerEmail,
+        customer_address: address,
+        customer_message: message,
+        order_details: orderDetails,
+        total_price: totalPrice
+      };
+
+
+      // SEND EMAIL
+      emailjs.send(
+        'YOUR_SERVICE_ID',
+        'YOUR_TEMPLATE_ID',
+        templateParams
+      )
+      .then(function(response) {
+
+        alert('Order placed successfully! Email sent to store owner.');
+
+        cart = [];
+        updateCart();
+
+        document.getElementById('checkout-form').reset();
+
+      }, function(error) {
+
+        alert('Failed to send order email.');
+        console.log(error);
+
+      });
+
+    });
+
+  </script>
 
 </body>
 </html>
